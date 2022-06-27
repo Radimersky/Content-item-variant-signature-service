@@ -13,6 +13,11 @@ app.get("/", (req, res) => {
   res.send("<h1>Server is running</h1>");
 });
 
+app.get("/publickey", (req, res) => {
+  const key = getPublicKey()
+  res.send(key);
+});
+
 app.post("/sign", jsonParser, (req, res) => {
   const data = req.body;
 
@@ -41,4 +46,11 @@ const signHash = (hash) => {
 
   var sig = sign.sign(key, "hex");
   return sig;
+};
+
+const getPublicKey = () => {
+  // Read private key from file
+  const pem = fs.readFileSync("./keys/key.pub");
+  const key = pem.toString("ascii");
+  return key;
 };
