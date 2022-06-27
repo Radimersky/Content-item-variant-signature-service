@@ -1,10 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const hash = require("object-hash");
-var crypto = require("crypto");
-var fs = require("fs");
+const crypto = require("crypto");
+const fs = require("fs");
+const cors = require('cors');
 
 const app = express();
+app.use(cors());
 
 // create application/json parser
 var jsonParser = bodyParser.json();
