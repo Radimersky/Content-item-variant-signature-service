@@ -3,20 +3,33 @@ const bodyParser = require("body-parser");
 const hash = require("object-hash");
 const crypto = require("crypto");
 const fs = require("fs");
-const cors = require('cors');
+const cors = require("cors");
+const ellipticcurve = require("starkbank-ecdsa");
+
+const Ecdsa = ellipticcurve.Ecdsa;
+const PrivateKey = ellipticcurve.PrivateKey;
+const Signature = ellipticcurve.Signature;
 
 const app = express();
 app.use(cors());
 
 // create application/json parser
-var jsonParser = bodyParser.json();
+const jsonParser = bodyParser.json();
+
+// Read private key from file
+const pem = fs.readFileSync("./keys/private-key.pem");
+const key = pem.toString("ascii");
+console.log(key);
+
+// Generate privateKey from PEM string
+const privateKey = PrivateKey.fromPem(key);
 
 app.get("/", (req, res) => {
   res.send("<h1>Server is running</h1>");
 });
 
 app.get("/publickey", (req, res) => {
-  const key = getPublicKey()
+  const key = getPublicKey();
   res.send(key);
 });
 
@@ -28,9 +41,25 @@ app.post("/sign", jsonParser, (req, res) => {
   }
 
   const dataHash = hash(data);
-  const hashSignature = signHash(dataHash)
+  const hashSignature = signHash(dataHash);
 
   res.send({ hash: dataHash, signature: hashSignature });
+});
+
+app.post("/verify", jsonParser, (req, res) => {
+  const { message, signature } = req.body;
+
+  if (!message || !signature) {
+    res
+      .status(400)
+      .send({
+        message: "Please provide request message and signature in request body"
+      });
+  }
+
+  const verified = verify(message, signature);
+
+  res.send({ verified });
 });
 
 app.listen(3001, () => {
@@ -38,21 +67,20 @@ app.listen(3001, () => {
   console.log("Local server: http://localhost:3001/");
 });
 
-const signHash = (hash) => {
-  // Read private key from file
-  const pem = fs.readFileSync("./keys/key");
-  const key = pem.toString("ascii");
-
-  var sign = crypto.createSign("RSA-SHA256");
-  sign.update(hash); // data from your file would go here
-
-  var sig = sign.sign(key, "hex");
-  return sig;
+const signHash = (message) => {
+  const signature = Ecdsa.sign(JSON.stringify(message), privateKey);
+  return signature.toBase64();
 };
 
 const getPublicKey = () => {
   // Read private key from file
-  const pem = fs.readFileSync("./keys/key.pub");
+  const pem = fs.readFileSync("./keys/public-key.pem");
   const key = pem.toString("ascii");
   return key;
+};
+
+const verify = (message, signature) => {
+  const publicKey = privateKey.publicKey();
+  const parsedSignature = Signature.fromBase64(signature)
+  return Ecdsa.verify(JSON.stringify(message), parsedSignature, publicKey);
 };
