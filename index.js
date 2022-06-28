@@ -19,7 +19,6 @@ const jsonParser = bodyParser.json();
 // Read private key from file
 const pem = fs.readFileSync("./keys/private-key.pem");
 const key = pem.toString("ascii");
-console.log(key);
 
 // Generate privateKey from PEM string
 const privateKey = PrivateKey.fromPem(key);
@@ -50,11 +49,9 @@ app.post("/verify", jsonParser, (req, res) => {
   const { message, signature } = req.body;
 
   if (!message || !signature) {
-    res
-      .status(400)
-      .send({
-        message: "Please provide request message and signature in request body"
-      });
+    res.status(400).send({
+      message: "Please provide request message and signature in request body"
+    });
   }
 
   const verified = verify(message, signature);
@@ -81,6 +78,6 @@ const getPublicKey = () => {
 
 const verify = (message, signature) => {
   const publicKey = privateKey.publicKey();
-  const parsedSignature = Signature.fromBase64(signature)
+  const parsedSignature = Signature.fromBase64(signature);
   return Ecdsa.verify(JSON.stringify(message), parsedSignature, publicKey);
 };
