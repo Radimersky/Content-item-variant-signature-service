@@ -39,10 +39,7 @@ app.post("/sign", jsonParser, (req, res) => {
     res.status(400).send({ message: "Please provide data to hash" });
   }
 
-  const dataHash = hash(data);
-  const hashSignature = signHash(dataHash);
-
-  res.send({ hash: dataHash, signature: hashSignature });
+  res.send(sign(data));
 });
 
 app.post("/verify", jsonParser, (req, res) => {
@@ -81,3 +78,16 @@ const verify = (message, signature) => {
   const parsedSignature = Signature.fromBase64(signature);
   return Ecdsa.verify(JSON.stringify(message), parsedSignature, publicKey);
 };
+
+const sign = (data) => {
+  const dataHash = hash(data);
+  const hashSignature = signHash(dataHash);
+
+  return { hash: dataHash, signature: hashSignature };
+};
+
+module.exports = {
+  verify,
+  sign
+};
+

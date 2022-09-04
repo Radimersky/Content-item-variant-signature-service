@@ -13,9 +13,11 @@
     "object-hash": "^3.0.0",
     "starkbank-ecdsa": "^1.1.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^29.0.2"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "nodemon server/index.js"
   },
   "repository": {
