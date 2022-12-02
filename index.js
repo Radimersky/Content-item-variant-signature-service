@@ -1,15 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const hash = require("object-hash");
-const crypto = require("crypto");
 const fs = require("fs");
 const cors = require("cors");
-const ellipticcurve = require("starkbank-ecdsa");
+const ellipticCurve = require("starkbank-ecdsa");
 
 
-const Ecdsa = ellipticcurve.Ecdsa;
-const PrivateKey = ellipticcurve.PrivateKey;
-const Signature = ellipticcurve.Signature;
+const Ecdsa = ellipticCurve.Ecdsa;
+const PrivateKey = ellipticCurve.PrivateKey;
+const Signature = ellipticCurve.Signature;
 
 const app = express();
 app.use(cors());
@@ -57,7 +56,7 @@ app.post("/verify", jsonParser, (req, res) => {
   res.send({ verified });
 });
 
-app.listen(30033, () => {
+app.listen(3001, () => {
   console.log("Server started on port 3001.");
   console.log("Local server: http://localhost:3001/");
 });
@@ -68,7 +67,6 @@ const signHash = (message) => {
 };
 
 const getPublicKey = () => {
-  // Read private key from file
   const pem = fs.readFileSync("./keys/public-key.pem");
   const key = pem.toString("ascii");
   return key;
@@ -83,10 +81,6 @@ const verify = (message, signature) => {
 const sign = (data) => {
   const dataHash = hash(data);
   const hashSignature = signHash(dataHash);
-
-  console.log(dataHash);
-  console.log(hashSignature);
-
   return { hash: dataHash, signature: hashSignature };
 };
 

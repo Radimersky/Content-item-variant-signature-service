@@ -3,8 +3,8 @@ const index = require('./index');
 const _variant = {
   "system": {
     "id": "50613e08-130a-40c9-b106-4e5093b41cf4",
-    "name": "blabla",
-    "codename": "blabla",
+    "name": "marcus",
+    "codename": "aurelius",
     "language": "default",
     "type": "le_only_7e78a77",
     "collection": "default",
