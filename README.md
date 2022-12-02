@@ -10,10 +10,10 @@ It is used by the client interface of the following project to provide signature
 - https://github.com/Radimersky/Solana-kontent
 
 
-**How to set up
+**How to set up**
 1. npm install
 2. Copy public key file as "public-key.pem" and private key as "private-key-pem" into folder "keys" (the folder already contains testing keys).
 
-**How to run
+**How to run**
 1. npm start
    Note: The server is listening on port 3001
