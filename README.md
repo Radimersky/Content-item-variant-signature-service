@@ -1,4 +1,4 @@
-# signature-service
+# Content item variant signature service
 
 This project serves as a signature provider.
 Given public and private keys in the "keys" folder, it provides:
