@@ -23,6 +23,8 @@ const _variant = {
 
 test('sign and verify', () => {
   const result = index.sign(_variant);
+
   const isVerified = index.verify(result.hash, result.signature);
+  
   expect(isVerified).toBe(true);
 })
