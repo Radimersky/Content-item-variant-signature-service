@@ -57,7 +57,7 @@ app.post("/verify", jsonParser, (req, res) => {
   res.send({ verified });
 });
 
-app.listen(30033, () => {
+app.listen(3001, () => {
   console.log("Server started on port 3001.");
   console.log("Local server: http://localhost:3001/");
 });
