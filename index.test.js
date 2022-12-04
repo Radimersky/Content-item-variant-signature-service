@@ -1,4 +1,4 @@
-const index = require('./index');
+const index = require('.');
 
 const _variant = {
   "system": {

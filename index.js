@@ -1,4 +1,5 @@
 const express = require("express");
+const serverless = require("serverless-http");
 const bodyParser = require("body-parser");
 const hash = require("object-hash");
 const fs = require("fs");
@@ -13,6 +14,8 @@ const Signature = ellipticCurve.Signature;
 const app = express();
 app.use(cors());
 
+const router = express.Router();
+
 // create application/json parser
 const jsonParser = bodyParser.json();
 
@@ -23,8 +26,11 @@ const key = pem.toString("ascii");
 // Generate privateKey from PEM string
 const privateKey = PrivateKey.fromPem(key);
 
-app.get("/", (req, res) => {
-  res.send("<h1>Server is running</h1>");
+router.get("/", (req, res) => {
+  //res.send("<h1>Server is running</h1>");
+  res.json({
+    'hello': 'hi'
+  });
 });
 
 app.get("/publickey", (req, res) => {
@@ -84,8 +90,11 @@ const sign = (data) => {
   return { hash: dataHash, signature: hashSignature };
 };
 
+app.use('/netlify/functions', router);
+
 module.exports = {
   verify,
   sign
 };
 
+module.exports.handler = serverless(app);
