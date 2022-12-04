@@ -8,6 +8,7 @@ Given public and private keys in the "keys" folder, it provides:
 
 It is used by the client interface of the following project to provide signatures of content item variants that are then deployed to the Solana blockchain
 - https://github.com/Radimersky/Solana-kontent
+
 The Solana smart contract is available in this project:
 - https://github.com/Radimersky/Solana-smart-contract-for-integrity-validation-of-Kontent.ai-content-item-variants
 
