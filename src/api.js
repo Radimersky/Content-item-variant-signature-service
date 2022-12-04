@@ -23,6 +23,8 @@ const router = express.Router();
 const jsonParser = bodyParser.json();
 
 // Read private key from file
+console.log(__dirname);
+console.log(__filename);
 const pem = fs.readFileSync("./keys/private-key.pem");
 const key = pem.toString("ascii");
 
