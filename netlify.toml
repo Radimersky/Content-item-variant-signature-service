@@ -1,2 +1,5 @@
 [build]
 functions = "functions"
+
+[functions]
+included_files = ["./keys/private-key.pem", "./keys/public-key.pem"]

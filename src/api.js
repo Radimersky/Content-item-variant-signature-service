@@ -5,6 +5,7 @@ const hash = require("object-hash");
 const fs = require("fs");
 const cors = require("cors");
 const ellipticCurve = require("starkbank-ecdsa");
+const path = require('path');
 const { keys } = require("object-hash");
 
 const Ecdsa = ellipticCurve.Ecdsa;
@@ -23,9 +24,7 @@ const router = express.Router();
 const jsonParser = bodyParser.json();
 
 // Read private key from file
-console.log(__dirname);
-console.log(__filename);
-const pem = fs.readFileSync("./keys/private-key.pem");
+const pem = fs.readFileSync('./keys/private-key.pem');
 const key = pem.toString("ascii");
 
 // Generate privateKey from PEM string
