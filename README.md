@@ -12,6 +12,7 @@ It is used by the client interface of the following project to provide signature
 The Solana smart contract is available in this project:
 - https://github.com/Radimersky/Solana-smart-contract-for-integrity-validation-of-Kontent.ai-content-item-variants
 
+Note: The main branch contains code for deploying to Nerlify. To use this code locally, checkout to branch "Server_version_-_without_Netlify"
 
 **How to set up**
 1. npm install
